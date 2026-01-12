@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { createContext, useContext, useMemo } from "react";
 import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui/react/toggle-group";
 
 import { cn } from "@/lib/utils";
@@ -10,8 +10,9 @@ import { Toggle as ToggleComponent } from "@/components/ui/toggle";
 import type { toggleVariants } from "@/components/ui/toggle";
 import type { Toggle as TogglePrimitive } from "@base-ui/react/toggle";
 import type { VariantProps } from "class-variance-authority";
+import type { ComponentProps } from "react";
 
-const ToggleGroupContext = React.createContext<VariantProps<typeof toggleVariants>>({
+const ToggleGroupContext = createContext<VariantProps<typeof toggleVariants>>({
   size: "default",
   variant: "default",
 });
@@ -24,6 +25,15 @@ function ToggleGroup({
   children,
   ...props
 }: ToggleGroupPrimitive.Props & VariantProps<typeof toggleVariants>) {
+  const contextValue = useMemo(() => ({ size, variant }), [size, variant]);
+
+  const orientationClasses =
+    orientation === "horizontal"
+      ? "*:not-first:rounded-s-none *:not-first:border-s-0 *:not-last:rounded-e-none *:not-last:border-e-0 *:not-first:before:rounded-s-none *:not-last:before:rounded-e-none *:not-first:not-data-[slot=separator]:before:-start-[0.5px] *:not-last:not-data-[slot=separator]:before:-end-[0.5px]"
+      : "flex-col *:not-first:rounded-t-none *:not-first:border-t-0 *:not-last:rounded-b-none *:not-last:border-b-0 *:not-first:before:rounded-t-none *:not-last:before:rounded-b-none *:not-first:not-data-[slot=separator]:before:-top-[0.5px] *:not-last:not-data-[slot=separator]:before:-bottom-[0.5px] *:data-[slot=toggle]:not-last:before:hidden dark:*:first:before:block dark:*:last:before:hidden";
+
+  const variantClasses = variant === "default" ? "gap-0.5" : orientationClasses;
+
   return (
     <ToggleGroupPrimitive
       className={cn(
@@ -31,11 +41,7 @@ function ToggleGroup({
         orientation === "horizontal"
           ? "*:pointer-coarse:after:min-w-auto"
           : "*:pointer-coarse:after:min-h-auto",
-        variant === "default"
-          ? "gap-0.5"
-          : orientation === "horizontal"
-            ? "*:not-first:rounded-s-none *:not-first:border-s-0 *:not-last:rounded-e-none *:not-last:border-e-0 *:not-first:before:rounded-s-none *:not-last:before:rounded-e-none *:not-first:not-data-[slot=separator]:before:-start-[0.5px] *:not-last:not-data-[slot=separator]:before:-end-[0.5px]"
-            : "flex-col *:not-first:rounded-t-none *:not-first:border-t-0 *:not-last:rounded-b-none *:not-last:border-b-0 *:not-first:before:rounded-t-none *:not-last:before:rounded-b-none *:not-first:not-data-[slot=separator]:before:-top-[0.5px] *:not-last:not-data-[slot=separator]:before:-bottom-[0.5px] *:data-[slot=toggle]:not-last:before:hidden dark:*:first:before:block dark:*:last:before:hidden",
+        variantClasses,
         className,
       )}
       data-size={size}
@@ -44,9 +50,7 @@ function ToggleGroup({
       orientation={orientation}
       {...props}
     >
-      <ToggleGroupContext.Provider value={{ size, variant }}>
-        {children}
-      </ToggleGroupContext.Provider>
+      <ToggleGroupContext.Provider value={contextValue}>{children}</ToggleGroupContext.Provider>
     </ToggleGroupPrimitive>
   );
 }
@@ -58,10 +62,10 @@ function Toggle({
   size,
   ...props
 }: TogglePrimitive.Props & VariantProps<typeof toggleVariants>) {
-  const context = React.useContext(ToggleGroupContext);
+  const context = useContext(ToggleGroupContext);
 
-  const resolvedVariant = context.variant || variant;
-  const resolvedSize = context.size || size;
+  const resolvedVariant = context.variant ?? variant;
+  const resolvedSize = context.size ?? size;
 
   return (
     <ToggleComponent
@@ -78,12 +82,12 @@ function Toggle({
 }
 
 function ToggleGroupSeparator({
-  className,
+  className = undefined,
   orientation = "vertical",
   ...props
 }: {
   className?: string;
-} & React.ComponentProps<typeof Separator>) {
+} & ComponentProps<typeof Separator>) {
   return (
     <Separator
       className={cn(
@@ -96,4 +100,4 @@ function ToggleGroupSeparator({
   );
 }
 
-export { ToggleGroup, Toggle, Toggle as ToggleGroupItem, ToggleGroupSeparator };
+export { Toggle, ToggleGroup, Toggle as ToggleGroupItem, ToggleGroupSeparator };

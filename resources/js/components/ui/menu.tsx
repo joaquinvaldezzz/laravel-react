@@ -1,11 +1,12 @@
 "use client";
 
+import { Fragment } from "react";
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { ChevronRightIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import type * as React from "react";
+import type { ComponentProps } from "react";
 
 const MenuCreateHandle = MenuPrimitive.createHandle;
 
@@ -22,7 +23,7 @@ function MenuPopup({
   className,
   sideOffset = 4,
   align = "center",
-  alignOffset,
+  alignOffset = undefined,
   side = "bottom",
   ...props
 }: MenuPrimitive.Popup.Props & {
@@ -62,7 +63,7 @@ function MenuGroup(props: MenuPrimitive.Group.Props) {
 
 function MenuItem({
   className,
-  inset,
+  inset = undefined,
   variant = "default",
   ...props
 }: MenuPrimitive.Item.Props & {
@@ -104,7 +105,7 @@ function MenuCheckboxItem({
       {...props}
     >
       {variant === "switch" ? (
-        <>
+        <Fragment>
           <span className="col-start-1">{children}</span>
           <MenuPrimitive.CheckboxItemIndicator
             className="inline-flex h-[calc(var(--thumb-size)+2px)] w-[calc(var(--thumb-size)*2-2px)] shrink-0 items-center rounded-full p-px inset-shadow-[0_1px_--theme(--color-black/6%)] transition-[background-color,box-shadow] duration-200 outline-none [--thumb-size:--spacing(4)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background data-checked:bg-primary data-disabled:opacity-64 data-unchecked:bg-input sm:[--thumb-size:--spacing(3)]"
@@ -112,9 +113,9 @@ function MenuCheckboxItem({
           >
             <span className="pointer-events-none block aspect-square h-full origin-left rounded-(--thumb-size) bg-background shadow-sm/5 will-change-transform [transition:translate_.15s,border-radius_.15s,scale_.1s_.1s,transform-origin_.15s] in-[[data-slot=menu-checkbox-item]:active]:rounded-[var(--thumb-size)/calc(var(--thumb-size)*1.10)] in-[[data-slot=menu-checkbox-item]:active]:not-data-disabled:scale-x-110 in-[[data-slot=menu-checkbox-item][data-checked]]:origin-[var(--thumb-size)_50%] in-[[data-slot=menu-checkbox-item][data-checked]]:translate-x-[calc(var(--thumb-size)-4px)]" />
           </MenuPrimitive.CheckboxItemIndicator>
-        </>
+        </Fragment>
       ) : (
-        <>
+        <Fragment>
           <MenuPrimitive.CheckboxItemIndicator className="col-start-1">
             <svg
               fill="none"
@@ -131,7 +132,7 @@ function MenuCheckboxItem({
             </svg>
           </MenuPrimitive.CheckboxItemIndicator>
           <span className="col-start-2">{children}</span>
-        </>
+        </Fragment>
       )}
     </MenuPrimitive.CheckboxItem>
   );
@@ -173,7 +174,7 @@ function MenuRadioItem({ className, children, ...props }: MenuPrimitive.RadioIte
 
 function MenuGroupLabel({
   className,
-  inset,
+  inset = undefined,
   ...props
 }: MenuPrimitive.GroupLabel.Props & {
   inset?: boolean;
@@ -201,7 +202,7 @@ function MenuSeparator({ className, ...props }: MenuPrimitive.Separator.Props) {
   );
 }
 
-function MenuShortcut({ className, ...props }: React.ComponentProps<"kbd">) {
+function MenuShortcut({ className, ...props }: ComponentProps<"kbd">) {
   return (
     <kbd
       className={cn(
@@ -220,7 +221,7 @@ function MenuSub(props: MenuPrimitive.SubmenuRoot.Props) {
 
 function MenuSubTrigger({
   className,
-  inset,
+  inset = undefined,
   children,
   ...props
 }: MenuPrimitive.SubmenuTrigger.Props & {
@@ -245,7 +246,7 @@ function MenuSubTrigger({
 function MenuSubPopup({
   className,
   sideOffset = 0,
-  alignOffset,
+  alignOffset = undefined,
   align = "start",
   ...props
 }: MenuPrimitive.Popup.Props & {
@@ -269,36 +270,36 @@ function MenuSubPopup({
 }
 
 export {
-  MenuCreateHandle,
-  MenuCreateHandle as DropdownMenuCreateHandle,
-  Menu,
   Menu as DropdownMenu,
-  MenuPortal,
-  MenuPortal as DropdownMenuPortal,
-  MenuTrigger,
-  MenuTrigger as DropdownMenuTrigger,
-  MenuPopup,
-  MenuPopup as DropdownMenuContent,
-  MenuGroup,
-  MenuGroup as DropdownMenuGroup,
-  MenuItem,
-  MenuItem as DropdownMenuItem,
-  MenuCheckboxItem,
   MenuCheckboxItem as DropdownMenuCheckboxItem,
-  MenuRadioGroup,
-  MenuRadioGroup as DropdownMenuRadioGroup,
-  MenuRadioItem,
-  MenuRadioItem as DropdownMenuRadioItem,
-  MenuGroupLabel,
+  MenuPopup as DropdownMenuContent,
+  MenuCreateHandle as DropdownMenuCreateHandle,
+  MenuGroup as DropdownMenuGroup,
+  MenuItem as DropdownMenuItem,
   MenuGroupLabel as DropdownMenuLabel,
-  MenuSeparator,
+  MenuPortal as DropdownMenuPortal,
+  MenuRadioGroup as DropdownMenuRadioGroup,
+  MenuRadioItem as DropdownMenuRadioItem,
   MenuSeparator as DropdownMenuSeparator,
-  MenuShortcut,
   MenuShortcut as DropdownMenuShortcut,
-  MenuSub,
   MenuSub as DropdownMenuSub,
-  MenuSubTrigger,
-  MenuSubTrigger as DropdownMenuSubTrigger,
-  MenuSubPopup,
   MenuSubPopup as DropdownMenuSubContent,
+  MenuSubTrigger as DropdownMenuSubTrigger,
+  MenuTrigger as DropdownMenuTrigger,
+  Menu,
+  MenuCheckboxItem,
+  MenuCreateHandle,
+  MenuGroup,
+  MenuGroupLabel,
+  MenuItem,
+  MenuPopup,
+  MenuPortal,
+  MenuRadioGroup,
+  MenuRadioItem,
+  MenuSeparator,
+  MenuShortcut,
+  MenuSub,
+  MenuSubPopup,
+  MenuSubTrigger,
+  MenuTrigger,
 };

@@ -1,13 +1,15 @@
 "use client";
 
-import * as React from "react";
+import { createContext, useContext, useId, useMemo } from "react";
 import { NumberField as NumberFieldPrimitive } from "@base-ui/react/number-field";
 import { MinusIcon, PlusIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 
-const NumberFieldContext = React.createContext<{
+import type { ComponentProps } from "react";
+
+const NumberFieldContext = createContext<{
   fieldId: string;
 } | null>(null);
 
@@ -19,11 +21,12 @@ function NumberField({
 }: NumberFieldPrimitive.Root.Props & {
   size?: "sm" | "default" | "lg";
 }) {
-  const generatedId = React.useId();
+  const generatedId = useId();
   const fieldId = id ?? generatedId;
+  const contextValue = useMemo(() => ({ fieldId }), [fieldId]);
 
   return (
-    <NumberFieldContext.Provider value={{ fieldId }}>
+    <NumberFieldContext.Provider value={contextValue}>
       <NumberFieldPrimitive.Root
         className={cn("flex w-full flex-col items-start gap-2", className)}
         data-size={size}
@@ -91,6 +94,22 @@ function NumberFieldInput({ className, ...props }: NumberFieldPrimitive.Input.Pr
   );
 }
 
+function CursorGrowIcon({ ...props }: ComponentProps<"svg">) {
+  return (
+    <svg
+      fill="black"
+      height="14"
+      stroke="white"
+      viewBox="0 0 24 14"
+      width="26"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path d="M19.5 5.5L6.49737 5.51844V2L1 6.9999L6.5 12L6.49737 8.5L19.5 8.5V12L25 6.9999L19.5 2V5.5Z" />
+    </svg>
+  );
+}
+
 function NumberFieldScrubArea({
   className,
   label,
@@ -98,7 +117,7 @@ function NumberFieldScrubArea({
 }: NumberFieldPrimitive.ScrubArea.Props & {
   label: string;
 }) {
-  const context = React.useContext(NumberFieldContext);
+  const context = useContext(NumberFieldContext);
 
   if (!context) {
     throw new Error(
@@ -122,27 +141,11 @@ function NumberFieldScrubArea({
   );
 }
 
-function CursorGrowIcon(props: React.ComponentProps<"svg">) {
-  return (
-    <svg
-      fill="black"
-      height="14"
-      stroke="white"
-      viewBox="0 0 24 14"
-      width="26"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path d="M19.5 5.5L6.49737 5.51844V2L1 6.9999L6.5 12L6.49737 8.5L19.5 8.5V12L25 6.9999L19.5 2V5.5Z" />
-    </svg>
-  );
-}
-
 export {
   NumberField,
-  NumberFieldScrubArea,
   NumberFieldDecrement,
-  NumberFieldIncrement,
   NumberFieldGroup,
+  NumberFieldIncrement,
   NumberFieldInput,
+  NumberFieldScrubArea,
 };

@@ -4,20 +4,6 @@ import { Meter as MeterPrimitive } from "@base-ui/react/meter";
 
 import { cn } from "@/lib/utils";
 
-function Meter({ className, children, ...props }: MeterPrimitive.Root.Props) {
-  return (
-    <MeterPrimitive.Root className={cn("flex w-full flex-col gap-2", className)} {...props}>
-      {children ? (
-        children
-      ) : (
-        <MeterTrack>
-          <MeterIndicator />
-        </MeterTrack>
-      )}
-    </MeterPrimitive.Root>
-  );
-}
-
 function MeterLabel({ className, ...props }: MeterPrimitive.Label.Props) {
   return (
     <MeterPrimitive.Label
@@ -48,6 +34,18 @@ function MeterIndicator({ className, ...props }: MeterPrimitive.Indicator.Props)
   );
 }
 
+function Meter({ className, children, ...props }: MeterPrimitive.Root.Props) {
+  return (
+    <MeterPrimitive.Root className={cn("flex w-full flex-col gap-2", className)} {...props}>
+      {children ?? (
+        <MeterTrack>
+          <MeterIndicator />
+        </MeterTrack>
+      )}
+    </MeterPrimitive.Root>
+  );
+}
+
 function MeterValue({ className, ...props }: MeterPrimitive.Value.Props) {
   return (
     <MeterPrimitive.Value
@@ -58,4 +56,4 @@ function MeterValue({ className, ...props }: MeterPrimitive.Value.Props) {
   );
 }
 
-export { Meter, MeterLabel, MeterTrack, MeterIndicator, MeterValue };
+export { Meter, MeterIndicator, MeterLabel, MeterTrack, MeterValue };

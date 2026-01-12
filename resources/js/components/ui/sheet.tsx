@@ -33,7 +33,7 @@ function SheetBackdrop({ className, ...props }: SheetPrimitive.Backdrop.Props) {
 }
 
 function SheetViewport({
-  side,
+  side = undefined,
   inset = false,
   ...props
 }: SheetPrimitive.Viewport.Props & {
@@ -91,7 +91,7 @@ function SheetPopup({
           {...props}
         >
           {children}
-          {showCloseButton && (
+          {showCloseButton ? (
             <SheetPrimitive.Close
               aria-label="Close"
               className="absolute end-2 top-2"
@@ -99,7 +99,7 @@ function SheetPopup({
             >
               <XIcon />
             </SheetPrimitive.Close>
-          )}
+          ) : null}
         </SheetPrimitive.Popup>
       </SheetViewport>
     </SheetPortal>
@@ -182,16 +182,16 @@ function SheetPanel({
 
 export {
   Sheet,
-  SheetTrigger,
-  SheetPortal,
-  SheetClose,
   SheetBackdrop,
-  SheetBackdrop as SheetOverlay,
-  SheetPopup,
+  SheetClose,
   SheetPopup as SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
   SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetBackdrop as SheetOverlay,
   SheetPanel,
+  SheetPopup,
+  SheetPortal,
+  SheetTitle,
+  SheetTrigger,
 };

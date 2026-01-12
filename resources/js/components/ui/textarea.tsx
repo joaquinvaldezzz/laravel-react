@@ -5,9 +5,9 @@ import { mergeProps } from "@base-ui/react/merge-props";
 
 import { cn } from "@/lib/utils";
 
-import type * as React from "react";
+import type { ComponentProps } from "react";
 
-type TextareaProps = React.ComponentProps<"textarea"> & {
+type TextareaProps = ComponentProps<"textarea"> & {
   size?: "sm" | "default" | "lg" | number;
   unstyled?: boolean;
 };

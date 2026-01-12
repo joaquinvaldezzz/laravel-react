@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useMemo } from "react";
 import { Slider as SliderPrimitive } from "@base-ui/react/slider";
 
 import { cn } from "@/lib/utils";
@@ -14,12 +14,12 @@ function Slider({
   max = 100,
   ...props
 }: SliderPrimitive.Root.Props) {
-  const _values = React.useMemo(() => {
+  const values = useMemo(() => {
     if (value !== undefined) {
-      return Array.isArray(value) ? value : [value];
+      return Array.isArray(value) ? (value as number[]) : [value as number];
     }
     if (defaultValue !== undefined) {
-      return Array.isArray(defaultValue) ? defaultValue : [defaultValue];
+      return Array.isArray(defaultValue) ? (defaultValue as number[]) : [defaultValue as number];
     }
     return [min];
   }, [value, defaultValue, min]);
@@ -50,7 +50,7 @@ function Slider({
             className="rounded-full bg-primary select-none data-[orientation=horizontal]:ms-0.5 data-[orientation=vertical]:mb-0.5"
             data-slot="slider-indicator"
           />
-          {Array.from({ length: _values.length }, (_, index) => (
+          {Array.from({ length: values.length }, (_, index) => (
             <SliderPrimitive.Thumb
               className="block size-5 shrink-0 rounded-full border border-input bg-white shadow-xs/5 transition-[box-shadow,scale] outline-none select-none not-dark:bg-clip-padding before:absolute before:inset-0 before:rounded-full before:shadow-[0_1px_--theme(--color-black/6%)] focus-visible:ring-[3px] focus-visible:ring-ring/24 has-focus-visible:ring-[3px] has-focus-visible:ring-ring/24 data-dragging:scale-120 data-dragging:ring-[3px] data-dragging:ring-ring/24 sm:size-4 dark:border-background dark:focus-visible:ring-ring/48 dark:data-dragging:ring-ring/48 [:focus-visible,[data-dragging]]:shadow-none"
               data-slot="slider-thumb"

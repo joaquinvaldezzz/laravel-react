@@ -4,24 +4,6 @@ import { Progress as ProgressPrimitive } from "@base-ui/react/progress";
 
 import { cn } from "@/lib/utils";
 
-function Progress({ className, children, ...props }: ProgressPrimitive.Root.Props) {
-  return (
-    <ProgressPrimitive.Root
-      className={cn("flex w-full flex-col gap-2", className)}
-      data-slot="progress"
-      {...props}
-    >
-      {children ? (
-        children
-      ) : (
-        <ProgressTrack>
-          <ProgressIndicator />
-        </ProgressTrack>
-      )}
-    </ProgressPrimitive.Root>
-  );
-}
-
 function ProgressLabel({ className, ...props }: ProgressPrimitive.Label.Props) {
   return (
     <ProgressPrimitive.Label
@@ -52,6 +34,22 @@ function ProgressIndicator({ className, ...props }: ProgressPrimitive.Indicator.
   );
 }
 
+function Progress({ className, children, ...props }: ProgressPrimitive.Root.Props) {
+  return (
+    <ProgressPrimitive.Root
+      className={cn("flex w-full flex-col gap-2", className)}
+      data-slot="progress"
+      {...props}
+    >
+      {children ?? (
+        <ProgressTrack>
+          <ProgressIndicator />
+        </ProgressTrack>
+      )}
+    </ProgressPrimitive.Root>
+  );
+}
+
 function ProgressValue({ className, ...props }: ProgressPrimitive.Value.Props) {
   return (
     <ProgressPrimitive.Value
@@ -62,4 +60,4 @@ function ProgressValue({ className, ...props }: ProgressPrimitive.Value.Props) {
   );
 }
 
-export { Progress, ProgressLabel, ProgressTrack, ProgressIndicator, ProgressValue };
+export { Progress, ProgressIndicator, ProgressLabel, ProgressTrack, ProgressValue };

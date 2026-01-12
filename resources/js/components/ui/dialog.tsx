@@ -74,7 +74,7 @@ function DialogPopup({
           {...props}
         >
           {children}
-          {showCloseButton && (
+          {showCloseButton ? (
             <DialogPrimitive.Close
               aria-label="Close"
               className="absolute end-2 top-2"
@@ -82,7 +82,7 @@ function DialogPopup({
             >
               <XIcon />
             </DialogPrimitive.Close>
-          )}
+          ) : null}
         </DialogPrimitive.Popup>
       </DialogViewport>
     </DialogPortal>
@@ -164,19 +164,19 @@ function DialogPanel({
 }
 
 export {
-  DialogCreateHandle,
   Dialog,
-  DialogTrigger,
-  DialogPortal,
-  DialogClose,
   DialogBackdrop,
-  DialogBackdrop as DialogOverlay,
-  DialogPopup,
+  DialogClose,
   DialogPopup as DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
+  DialogCreateHandle,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogBackdrop as DialogOverlay,
   DialogPanel,
+  DialogPopup,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
   DialogViewport,
 };

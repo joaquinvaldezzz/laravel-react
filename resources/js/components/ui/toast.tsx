@@ -35,18 +35,19 @@ interface ToastProviderProps extends Toast.Provider.Props {
   position?: ToastPosition;
 }
 
-function ToastProvider({ children, position = "bottom-right", ...props }: ToastProviderProps) {
-  return (
-    <Toast.Provider toastManager={toastManager} {...props}>
-      {children}
-      <Toasts position={position} />
-    </Toast.Provider>
-  );
-}
-
-function Toasts({ position = "bottom-right" }: { position: ToastPosition }) {
+function Toasts({ position }: { position: ToastPosition }) {
   const { toasts } = Toast.useToastManager();
   const isTop = position.startsWith("top");
+
+  const getSwipeDirection = (): ("up" | "down" | "left" | "right")[] => {
+    if (position.includes("center")) {
+      return [isTop ? "up" : "down"];
+    }
+    if (position.includes("left")) {
+      return ["left", isTop ? "up" : "down"];
+    }
+    return ["right", isTop ? "up" : "down"];
+  };
 
   return (
     <Toast.Portal data-slot="toast-portal">
@@ -112,25 +113,19 @@ function Toasts({ position = "bottom-right" }: { position: ToastPosition }) {
               )}
               data-position={position}
               key={toast.id}
-              swipeDirection={
-                position.includes("center")
-                  ? [isTop ? "up" : "down"]
-                  : position.includes("left")
-                    ? ["left", isTop ? "up" : "down"]
-                    : ["right", isTop ? "up" : "down"]
-              }
+              swipeDirection={getSwipeDirection()}
               toast={toast}
             >
               <Toast.Content className="pointer-events-auto flex items-center justify-between gap-1.5 overflow-hidden px-3.5 py-3 text-sm transition-opacity duration-250 data-behind:pointer-events-none data-behind:opacity-0 data-expanded:opacity-100">
                 <div className="flex gap-2">
-                  {Icon && (
+                  {Icon ? (
                     <div
                       className="[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg]:h-lh [&>svg]:w-4"
                       data-slot="toast-icon"
                     >
                       <Icon className="in-data-[type=error]:text-destructive in-data-[type=info]:text-info in-data-[type=loading]:animate-spin in-data-[type=loading]:opacity-80 in-data-[type=success]:text-success in-data-[type=warning]:text-warning" />
                     </div>
-                  )}
+                  ) : null}
 
                   <div className="flex flex-col gap-0.5">
                     <Toast.Title className="font-medium" data-slot="toast-title" />
@@ -140,11 +135,11 @@ function Toasts({ position = "bottom-right" }: { position: ToastPosition }) {
                     />
                   </div>
                 </div>
-                {toast.actionProps && (
+                {toast.actionProps ? (
                   <Toast.Action className={buttonVariants({ size: "xs" })} data-slot="toast-action">
                     {toast.actionProps.children}
                   </Toast.Action>
-                )}
+                ) : null}
               </Toast.Content>
             </Toast.Root>
           );
@@ -154,11 +149,11 @@ function Toasts({ position = "bottom-right" }: { position: ToastPosition }) {
   );
 }
 
-function AnchoredToastProvider({ children, ...props }: Toast.Provider.Props) {
+function ToastProvider({ children, position = "bottom-right", ...props }: ToastProviderProps) {
   return (
-    <Toast.Provider toastManager={anchoredToastManager} {...props}>
+    <Toast.Provider toastManager={toastManager} {...props}>
       {children}
-      <AnchoredToasts />
+      <Toasts position={position} />
     </Toast.Provider>
   );
 }
@@ -172,7 +167,7 @@ function AnchoredToasts() {
         {toasts.map((toast) => {
           const Icon = toast.type ? TOAST_ICONS[toast.type as keyof typeof TOAST_ICONS] : null;
           const tooltipStyle = (toast.data as { tooltipStyle?: boolean })?.tooltipStyle ?? false;
-          const positionerProps = toast.positionerProps;
+          const { positionerProps } = toast;
 
           if (!positionerProps?.anchor) {
             return null;
@@ -203,14 +198,14 @@ function AnchoredToasts() {
                 ) : (
                   <Toast.Content className="pointer-events-auto flex items-center justify-between gap-1.5 overflow-hidden px-3.5 py-3 text-sm">
                     <div className="flex gap-2">
-                      {Icon && (
+                      {Icon ? (
                         <div
                           className="[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg]:h-lh [&>svg]:w-4"
                           data-slot="toast-icon"
                         >
                           <Icon className="in-data-[type=error]:text-destructive in-data-[type=info]:text-info in-data-[type=loading]:animate-spin in-data-[type=loading]:opacity-80 in-data-[type=success]:text-success in-data-[type=warning]:text-warning" />
                         </div>
-                      )}
+                      ) : null}
 
                       <div className="flex flex-col gap-0.5">
                         <Toast.Title className="font-medium" data-slot="toast-title" />
@@ -220,14 +215,14 @@ function AnchoredToasts() {
                         />
                       </div>
                     </div>
-                    {toast.actionProps && (
+                    {toast.actionProps ? (
                       <Toast.Action
                         className={buttonVariants({ size: "xs" })}
                         data-slot="toast-action"
                       >
                         {toast.actionProps.children}
                       </Toast.Action>
-                    )}
+                    ) : null}
                   </Toast.Content>
                 )}
               </Toast.Root>
@@ -239,10 +234,19 @@ function AnchoredToasts() {
   );
 }
 
+function AnchoredToastProvider({ children, ...props }: Toast.Provider.Props) {
+  return (
+    <Toast.Provider toastManager={anchoredToastManager} {...props}>
+      {children}
+      <AnchoredToasts />
+    </Toast.Provider>
+  );
+}
+
 export {
+  anchoredToastManager,
+  AnchoredToastProvider,
+  toastManager,
   ToastProvider,
   type ToastPosition,
-  toastManager,
-  AnchoredToastProvider,
-  anchoredToastManager,
 };

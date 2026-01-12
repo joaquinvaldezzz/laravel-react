@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 
 import type { VariantProps } from "class-variance-authority";
-import type * as React from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 const groupVariants = cva(
   "flex w-fit *:focus-visible:z-1 has-[>[data-slot=group]]:gap-2 *:has-focus-visible:z-1 dark:*:[[data-slot=button]:hover~[data-slot=separator]:not([data-slot]:hover~[data-slot=separator]~[data-slot=separator]),[data-slot][data-pressed]~[data-slot=separator]:not([data-slot][data-pressed]~[data-slot=separator]~[data-slot=separator])]:before:bg-input/64 dark:*:[[data-slot=separator]:has(~[data-slot=button]:hover):not(:has(~[data-slot=separator]~[data-slot]:hover)),[data-slot=separator]:has(~[data-slot][data-pressed]):not(:has(~[data-slot=separator]~[data-slot][data-pressed]))]:before:bg-input/64",
@@ -28,15 +28,15 @@ const groupVariants = cva(
 );
 
 function Group({
-  className,
-  orientation,
+  className = undefined,
+  orientation = undefined,
   children,
   ...props
 }: {
   className?: string;
   orientation?: VariantProps<typeof groupVariants>["orientation"];
-  children: React.ReactNode;
-} & React.ComponentProps<"div">) {
+  children: ReactNode;
+} & ComponentProps<"div">) {
   return (
     <div
       className={cn(groupVariants({ orientation }), className)}
@@ -66,12 +66,12 @@ function GroupText({ className, render, ...props }: useRender.ComponentProps<"di
 }
 
 function GroupSeparator({
-  className,
+  className = undefined,
   orientation = "vertical",
   ...props
 }: {
   className?: string;
-} & React.ComponentProps<typeof Separator>) {
+} & ComponentProps<typeof Separator>) {
   return (
     <Separator
       className={cn(
@@ -85,11 +85,11 @@ function GroupSeparator({
 }
 
 export {
-  Group,
   Group as ButtonGroup,
-  GroupText,
-  GroupText as ButtonGroupText,
-  GroupSeparator,
   GroupSeparator as ButtonGroupSeparator,
+  GroupText as ButtonGroupText,
+  Group,
+  GroupSeparator,
+  GroupText,
   groupVariants,
 };
