@@ -19,10 +19,12 @@ This repository is a Laravel 12 backend with a React + Inertia front‑end, buil
 - `tests/` – Pest/PHPUnit tests for the Laravel backend.
 
 ### Tooling and scripts
+
 - Composer manages PHP dependencies; `composer test` runs the backend test suite.
 - Node/Vite handle the front‑end; `npm run dev` starts Vite, and `npm run build` creates production assets.
 - Configuration for linting/formatting lives in `eslint.config.js`, `.prettierrc.json`, and Tailwind/Vite configs.
 
 ### Notes on local setup
+
 - Copy `.env.example` to `.env` and run `php artisan key:generate` to set the application key.
 - Install PHP deps with `composer install` (PHP 8.4+ is required per the lockfile) and JS deps with `npm install` or `pnpm install`.
