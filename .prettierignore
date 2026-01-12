@@ -1,7 +1,9 @@
-pnpm-lock.yaml
+bootstrap/cache/
 public/build/
 resources/js/routes/index.ts
 resources/js/routes/storage/index.ts
 resources/js/wayfinder/index.ts
 resources/views/mail/*
 storage/
+
+pnpm-lock.yaml
