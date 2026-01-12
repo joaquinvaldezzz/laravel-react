@@ -6,4 +6,5 @@ resources/js/wayfinder/index.ts
 resources/views/mail/*
 storage/
 
+bun.lock
 pnpm-lock.yaml
