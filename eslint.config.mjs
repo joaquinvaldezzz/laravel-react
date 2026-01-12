@@ -89,6 +89,13 @@ const prettierConfig = defineConfig([
 export default defineConfig([
   // Ignore files and folders listed in .gitignore
   includeIgnoreFile(gitignorePath),
+  {
+    ignores: [
+      "resources/js/routes/index.ts",
+      "resources/js/routes/storage/index.ts",
+      "resources/js/wayfinder/index.ts",
+    ],
+  },
   // JavaScript config
   ...jsConfig,
   // React config
