@@ -25,7 +25,7 @@ jobs:
           php-version: "8.4"
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2
 
       - name: Install Dependencies
         run: |
@@ -35,11 +35,11 @@ jobs:
       - name: Run Pint
         run: vendor/bin/pint
 
-      - name: Format Frontend
-        run: bun run format
+      - name: Format code
+        run: bun format
 
-      - name: Lint Frontend
-        run: bun run lint
+      - name: Lint code
+        run: bun lint
 
       # - name: Commit Changes
       #   uses: stefanzweifel/git-auto-commit-action@v5
