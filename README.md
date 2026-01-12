@@ -8,7 +8,10 @@ This repository is a Laravel 12 backend with a React + Inertia front‑end, buil
 - `database/` – Migrations, seeders, and factories for database schema and test data.
 - `public/` – Web server document root; Vite outputs built assets here and `index.php` boots the app.
 - `resources/` – Source assets:
-  - `resources/js/` – React front‑end. Pages live in `pages/`, reusable UI in `components/`, shared logic in `hooks/`, helpers in `lib/`, and type definitions in `types/`. `app.tsx` wires Inertia and Vite; `routes/` and `wayfinder/` support client routing helpers; `ssr.tsx` is the server‑side entry.
+  - `resources/js/` – React front‑end:
+    - `pages/` – Inertia pages rendered from Laravel routes.
+    - `components/` – Reusable UI building blocks; shared logic lives in `hooks/`, helpers in `lib/`, and type definitions in `types/`.
+    - `app.tsx` – Boots Inertia and Vite; `routes/` and `wayfinder/` support client-side route helpers; `ssr.tsx` is the server‑side entry.
   - `resources/css/` – Global styles imported by the front‑end entry.
   - `resources/views/` – Blade templates (used mainly as the Inertia entry point).
 - `routes/` – HTTP route definitions; `web.php` maps routes to Inertia pages like `welcome` and `about`.
