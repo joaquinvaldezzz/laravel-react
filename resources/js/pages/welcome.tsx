@@ -1,36 +1,33 @@
 import { Fragment } from "react";
-import { Head, Link } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
+import { route } from "ziggy-js";
 
-import {
-  Accordion,
-  AccordionItem,
-  AccordionPanel,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Form } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toastManager } from "@/components/ui/toast";
+
+import type { FormEvent } from "react";
 
 export default function Welcome() {
-  const items = [
-    {
-      content:
-        "Base UI is a library of high-quality unstyled React components for design systems and web apps.",
-      id: "1",
-      title: "What is Base UI?",
-    },
-    {
-      content:
-        "Head to the \"Quick start\" guide in the docs. If you've used unstyled libraries before, you'll feel at home.",
-      id: "2",
-      title: "How do I get started?",
-    },
-    {
-      content: "Of course! Base UI is free and open source.",
-      id: "3",
-      title: "Can I use it for my project?",
-    },
-  ];
+  const { data, setData, post, processing, errors, reset } = useForm({
+    title: "",
+    content: "",
+  });
+
+  function submit(e: FormEvent) {
+    e.preventDefault();
+    post(route("posts.store"), {
+      onSuccess: () => {
+        toastManager.add({
+          title: "Post created successfully!",
+        });
+        reset();
+      },
+    });
+  }
 
   return (
     <Fragment>
@@ -42,26 +39,28 @@ export default function Welcome() {
           rel="stylesheet"
         />
       </Head>
-      <div className="mx-auto max-w-prose px-4">
-        <h1 className="text-2xl font-bold tracking-tight">Welcome to the Laravel 10.0.0</h1>
+      <div className="mx-auto max-w-prose px-4 pt-8">
+        <Form onSubmit={(e) => submit(e)} errors={errors}>
+          <Field name="title">
+            <FieldLabel>Title</FieldLabel>
+            <Input
+              type="text"
+              value={data.title}
+              onChange={(e) => setData("title", e.target.value)}
+            />
+            {errors.title ? <FieldError>{errors.title}</FieldError> : null}
+          </Field>
 
-        <Button render={<Link href="/about" />}>About</Button>
+          <Field name="content">
+            <FieldLabel>Content</FieldLabel>
+            <Textarea value={data.content} onChange={(e) => setData("content", e.target.value)} />
+            {errors.content ? <FieldError>{errors.content}</FieldError> : null}
+          </Field>
 
-        <div className="my-8">
-          <Label>
-            <Checkbox />
-            Accept terms and conditions
-          </Label>
-        </div>
-
-        <Accordion className="w-full" multiple>
-          {items.map((item) => (
-            <AccordionItem key={item.id} value={item.id}>
-              <AccordionTrigger>{item.title}</AccordionTrigger>
-              <AccordionPanel>{item.content}</AccordionPanel>
-            </AccordionItem>
-          ))}
-        </Accordion>
+          <Button type="submit" disabled={processing}>
+            Submit
+          </Button>
+        </Form>
       </div>
     </Fragment>
   );
