@@ -94,6 +94,7 @@ export default defineConfig([
       "resources/js/routes/index.ts",
       "resources/js/routes/storage/index.ts",
       "resources/js/wayfinder/index.ts",
+      "resources/js/ziggy.js",
     ],
   },
   // JavaScript config
