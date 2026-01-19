@@ -6,64 +6,63 @@ import { Card, CardDescription, CardHeader, CardPanel, CardTitle } from "@/compo
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { toastManager } from "@/components/ui/toast";
 
 import type { FormEvent } from "react";
 
-export default function Welcome() {
+export default function Index({ tasks }: { tasks: { id: number; title: string }[] }) {
   const { data, setData, post, processing, errors, reset } = useForm({
     title: "",
-    content: "",
   });
 
   function submit(e: FormEvent) {
     e.preventDefault();
-    post(route("posts.store"), {
+    post(route("tasks.store"), {
       onSuccess: () => {
         toastManager.add({
-          title: "Post created successfully!",
+          title: "Task created successfully!",
         });
         reset();
       },
     });
   }
 
+  console.log(errors);
+
   return (
     <div>
       <Head title="Welcome">
-        <meta name="description" content="Welcome to the Laravel 10.0.0" />
-        <link rel="preconnect" href="https://fonts.bunny.net" />
-        <link
-          href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600"
-          rel="stylesheet"
-        />
+        {/* <meta name="description" content="Welcome to the Laravel 10.0.0" /> */}
       </Head>
+
       <div className="container mx-auto px-4 pt-8 md:px-8">
+        <div>
+          <h1>Tasks</h1>
+
+          {tasks.length === 0 && <p>No tasks yet.</p>}
+
+          <ul className="list-disc pl-4">
+            {tasks.map((task) => (
+              <li key={task.id}>{task.title}</li>
+            ))}
+          </ul>
+        </div>
+
         <Card className="mx-auto max-w-sm">
           <CardHeader>
-            <CardTitle>Create a new post</CardTitle>
+            <CardTitle>Create a new task</CardTitle>
             <CardDescription>Create one by completing this form.</CardDescription>
           </CardHeader>
           <CardPanel>
-            <Form onSubmit={(e) => submit(e)} errors={errors}>
-              <Field name="title">
-                <FieldLabel>Title</FieldLabel>
+            <Form onSubmit={(e) => submit(e)}>
+              <Field name="task">
+                <FieldLabel>Task</FieldLabel>
                 <Input
                   type="text"
                   value={data.title}
                   onChange={(e) => setData("title", e.target.value)}
                 />
                 {errors.title ? <FieldError>{errors.title}</FieldError> : null}
-              </Field>
-
-              <Field name="content">
-                <FieldLabel>Content</FieldLabel>
-                <Textarea
-                  value={data.content}
-                  onChange={(e) => setData("content", e.target.value)}
-                />
-                {errors.content ? <FieldError>{errors.content}</FieldError> : null}
               </Field>
 
               <Button type="submit" disabled={processing}>

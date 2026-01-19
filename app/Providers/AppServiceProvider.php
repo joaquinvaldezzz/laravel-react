@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
+use Tighten\Ziggy\Ziggy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,5 +25,9 @@ class AppServiceProvider extends ServiceProvider
     if (env("APP_ENV") === "production") {
       $url->forceScheme("https");
     }
+
+    Inertia::share("ziggy", function () {
+      return new Ziggy()->toArray();
+    });
   }
 }

@@ -27,6 +27,11 @@ class User extends Authenticatable
    */
   protected $hidden = ["password", "remember_token"];
 
+  public function tasks()
+  {
+    return $this->hasMany(Task::class);
+  }
+
   /**
    * Get the attributes that should be cast.
    *
