@@ -1,7 +1,7 @@
-import PostController from "./PostController";
+import PostController from './PostController'
 
 const Controllers = {
-  PostController: Object.assign(PostController, PostController),
-};
+    PostController: Object.assign(PostController, PostController),
+}
 
-export default Controllers;
+export default Controllers
