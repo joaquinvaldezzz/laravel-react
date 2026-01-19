@@ -1,41 +1,25 @@
-import { createRoot } from "react-dom/client";
+import "../css/app.css";
+import "./bootstrap";
+
+import { createRoot, hydrateRoot } from "react-dom/client";
 import { createInertiaApp } from "@inertiajs/react";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 
-import { AnchoredToastProvider, ToastProvider } from "@/components/ui/toast";
-
-import type { route } from "ziggy-js";
-import type { Ziggy } from "./ziggy";
-
-import "../css/app.css";
-
-declare global {
-  interface Window {
-    Ziggy: typeof Ziggy;
-    route: typeof route;
-  }
-}
-
-const appName: string = import.meta.env.VITE_APP_NAME ?? "Laravel";
+const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 createInertiaApp({
-  title: (title) => (title ? `${title} - ${appName}` : appName),
-  resolve: async (name) =>
-    resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob("./pages/**/*.tsx")),
+  title: (title) => `${title} - ${appName}`,
+  resolve: (name) =>
+    resolvePageComponent(`./Pages/${name}.tsx`, import.meta.glob("./Pages/**/*.tsx")),
   setup({ el, App, props }) {
-    const root = createRoot(el);
+    if (import.meta.env.SSR) {
+      hydrateRoot(el, <App {...props} />);
+      return;
+    }
 
-    window.Ziggy = props.initialPage.props.ziggy;
-
-    root.render(
-      <ToastProvider>
-        <AnchoredToastProvider>
-          <App {...props} />
-        </AnchoredToastProvider>
-      </ToastProvider>,
-    );
+    createRoot(el).render(<App {...props} />);
   },
   progress: {
-    color: "var(--primary)",
+    color: "#4B5563",
   },
 });

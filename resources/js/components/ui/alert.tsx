@@ -13,7 +13,7 @@ const alertVariants = cva(
     },
     variants: {
       variant: {
-        default: "bg-transparent dark:bg-input/32 [&>svg]:text-muted-foreground",
+        default: "bg-transparent [&>svg]:text-muted-foreground",
         error: "border-destructive/32 bg-destructive/4 [&>svg]:text-destructive",
         info: "border-info/32 bg-info/4 [&>svg]:text-info",
         success: "border-success/32 bg-success/4 [&>svg]:text-success",
@@ -51,7 +51,7 @@ function AlertTitle({ className, ...props }: ComponentProps<"div">) {
 function AlertDescription({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
-      className={cn("flex flex-col gap-2.5 text-muted-foreground [svg~&]:col-start-2", className)}
+      className={cn("text-muted-foreground flex flex-col gap-2.5 [svg~&]:col-start-2", className)}
       data-slot="alert-description"
       {...props}
     />
