@@ -91,6 +91,8 @@ export default defineConfig([
   includeIgnoreFile(gitignorePath),
   {
     ignores: [
+      "resources/js/actions/",
+      "resources/js/routes/",
       "resources/js/routes/index.ts",
       "resources/js/routes/storage/index.ts",
       "resources/js/wayfinder/index.ts",
