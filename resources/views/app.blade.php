@@ -16,7 +16,7 @@
   @inertiaHead
 </head>
 
-<body class="min-w-80 antialiased">
+<body class="min-w-80 text-balance antialiased">
   @inertia
 </body>
 
