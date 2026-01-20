@@ -1,9 +1,9 @@
-import ProfileController from './ProfileController'
-import Auth from './Auth'
+import PostController from './PostController'
+import TaskController from './TaskController'
 
 const Controllers = {
-    ProfileController: Object.assign(ProfileController, ProfileController),
-    Auth: Object.assign(Auth, Auth),
+    PostController: Object.assign(PostController, PostController),
+    TaskController: Object.assign(TaskController, TaskController),
 }
 
 export default Controllers

@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 function Card({ className, render, ...props }: useRender.ComponentProps<"div">) {
   const defaultProps = {
     className: cn(
-      "bg-card text-card-foreground shadow-xs/5 not-dark:bg-clip-padding relative flex flex-col gap-6 rounded-2xl border py-6 before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-2xl)-1px)] before:shadow-[0_1px_--theme(--color-black/6%)]",
+      "relative flex flex-col gap-6 rounded-2xl border bg-card py-6 text-card-foreground shadow-xs/5 not-dark:bg-clip-padding before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-2xl)-1px)] before:shadow-[0_1px_--theme(--color-black/6%)] dark:before:shadow-[0_-1px_--theme(--color-white/6%)]",
       className,
     ),
     "data-slot": "card",
@@ -24,7 +24,7 @@ function Card({ className, render, ...props }: useRender.ComponentProps<"div">) 
 function CardHeader({ className, render, ...props }: useRender.ComponentProps<"div">) {
   const defaultProps = {
     className: cn(
-      "@container/card-header has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6",
+      "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
       className,
     ),
     "data-slot": "card-header",
@@ -39,7 +39,7 @@ function CardHeader({ className, render, ...props }: useRender.ComponentProps<"d
 
 function CardTitle({ className, render, ...props }: useRender.ComponentProps<"div">) {
   const defaultProps = {
-    className: cn("text-lg font-semibold leading-none", className),
+    className: cn("text-lg leading-none font-semibold", className),
     "data-slot": "card-title",
   };
 
@@ -52,7 +52,7 @@ function CardTitle({ className, render, ...props }: useRender.ComponentProps<"di
 
 function CardDescription({ className, render, ...props }: useRender.ComponentProps<"div">) {
   const defaultProps = {
-    className: cn("text-muted-foreground text-sm", className),
+    className: cn("text-sm text-muted-foreground", className),
     "data-slot": "card-description",
   };
 
@@ -91,7 +91,7 @@ function CardPanel({ className, render, ...props }: useRender.ComponentProps<"di
 
 function CardFooter({ className, render, ...props }: useRender.ComponentProps<"div">) {
   const defaultProps = {
-    className: cn("[.border-t]:pt-6 flex items-center px-6", className),
+    className: cn("flex items-center px-6 [.border-t]:pt-6", className),
     "data-slot": "card-footer",
   };
 
